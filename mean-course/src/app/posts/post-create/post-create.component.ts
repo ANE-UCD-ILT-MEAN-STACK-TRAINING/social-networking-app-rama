@@ -16,10 +16,16 @@ export class PostCreateComponent implements OnInit {
     alert(" Save Post Button Clicked");
   }*/
 
-  newPost = 'No Content';
+ /* newPost = 'No Content';
   onAddPost(postInput : HTMLTextAreaElement){
     console.dir(postInput);
     this.newPost= postInput.value;
+}*/
+
+enteredValue = '';
+newPost = 'No Content';
+onAddPost(){   
+  this.newPost=this.enteredValue;
 }
 
 
