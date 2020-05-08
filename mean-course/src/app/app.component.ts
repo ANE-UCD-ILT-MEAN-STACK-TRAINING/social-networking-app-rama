@@ -7,10 +7,11 @@ import { Post } from './posts/post.model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  storedPosts : Post[] = [];
+  // The below code is not needed as will be using service directly.
+  /*storedPosts : Post[] = [];
   onPostAdded(post){
     this.storedPosts.push(post);
-  }
+  }*/ 
 }
 
 
