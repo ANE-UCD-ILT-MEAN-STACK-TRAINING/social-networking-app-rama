@@ -1,5 +1,9 @@
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -14,8 +18,28 @@ app.use((req, res, next) => {
     next();
   });
   
+  app.post("/api/posts", (req, res, next) => {
 
-app.use("/api/posts", (req, res, next) => {
+    console.log("Inside Post API in app.js");
+    
+    const post = req.body;
+    console.log(req.body);
+
+    // we still need to send the response as we dont want client be waiting and timeout
+    res.status(201).json({
+      message: "Post added successfully",
+    });
+  
+  });
+
+
+
+  //app.get();
+  //app.put();
+  //app.delete();
+
+app.get("/api/posts", (req, res, next) => {
+  
   const posts = [
     {
       id: "fadf12421l",
@@ -28,6 +52,7 @@ app.use("/api/posts", (req, res, next) => {
       content: "This is coming from the server!",
     },
   ];
+
   res.status(200).json({
     message: "Posts fetched succesfully!",
     posts: posts,
