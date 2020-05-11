@@ -10,6 +10,8 @@ import { Subscription} from 'rxjs';
 })
 export class PostListComponent implements OnInit {
 
+  isLoading = false;
+
   constructor(public postsService : PostsService) { }
 
   @Input() posts: Post[] = [];
@@ -21,9 +23,11 @@ export class PostListComponent implements OnInit {
   ]*/
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.postsService.getPosts();
     this.postSubscription =  this.postsService.getPostUpdateListener()
     .subscribe((postsReceived: Post[]) => {
+        setTimeout(()=>{ this.isLoading = false }, 2000);
         this.posts = postsReceived;
     });
 

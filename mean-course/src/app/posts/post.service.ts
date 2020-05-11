@@ -59,6 +59,7 @@ export class PostsService {
         this.posts.push(post);
         this.postsUpdated.next([...this.posts]);
       });
+    this.router.navigate(['/']);
   }
 
 /*deletePost(postId : string) {
