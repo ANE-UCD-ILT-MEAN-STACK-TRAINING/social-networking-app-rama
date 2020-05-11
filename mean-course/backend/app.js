@@ -58,12 +58,11 @@ app.use((req, res, next) => {
       content: req.body.content,
     });
     console.log(req.body);
-    console.log("Before Save ...");
-    post.save();
-    console.log("After Save WIth ID...");
-    console.log(post);
-    res.status(201).json({
-      message: "Post added successfully",
+    post.save().then(createdPost => {
+      res.status(201).json({
+        message: "Post added successfully",
+        postId: createdPost._id
+      });
     });
   });
   
