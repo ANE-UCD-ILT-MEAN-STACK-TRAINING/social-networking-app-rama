@@ -31,7 +31,7 @@ app.use((req, res, next) => {
     );
     res.setHeader(
       "Access-Control-Allow-Methods",
-      "GET, POST, PATCH, DELETE, OPTIONS"
+      "GET, POST, PUT, PATCH, DELETE, OPTIONS"
     );
     next();
   });
@@ -89,6 +89,21 @@ app.delete("/api/posts/:id", (req, res, next) => {
   });
 });
 
+app.put('/api/posts/:id', (req, res, next) => {
+    const post = new Post({
+      _id: req.body.id,
+      title: req.body.title,
+      content: req.body.content
+  });
+    Post.updateOne({_id: req.params.id}, post)
+    .then(updatedPost => {
+    res.status(201).json({
+    message: 'Post Added !!',
+    postId: updatedPost._id
+    });
+  });
+});
 
+      
 
 module.exports = app;
