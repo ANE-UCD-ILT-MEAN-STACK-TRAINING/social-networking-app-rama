@@ -30,10 +30,6 @@ export class PostListComponent implements OnInit {
     
   }
 
-  editPost() {
-    console.log("Edit function to be done later")
-  }
-
   onDelete(postId : string) {
     this.postsService.deletePost(postId);
   }
