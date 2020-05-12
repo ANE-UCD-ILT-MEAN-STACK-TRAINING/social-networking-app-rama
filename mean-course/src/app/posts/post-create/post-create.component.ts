@@ -41,11 +41,12 @@ export class PostCreateComponent implements OnInit {
         // Replace the above line by the below 3 lines of code.
         this.postsService.getPost(this.postId).subscribe(postData => {
           this.isLoading = false;
-          this.post = {id: postData._id, title: postData.title, content: postData.content, imagePath: null }
+          this.post = { id: postData._id, title: postData.title, content: postData.content, imagePath: postData.imagePath }
           });  
           this.form.setValue({
             title: this.post.title,
             content: this.post.content,
+            imagePath: this.post.imagePath
            // image: new FormControl(null, Validators.required, )      
           });
     
@@ -104,10 +105,10 @@ onAddPost(form: NgForm) {
     if (this.mode === 'create') {
       this.postsService.addPost(this.form.value.title, this.form.value.content, this.form.value.image);
     } else {
-     // this.postsService.updatePost(this.postId, this.form.value.title, this.form.value.content, this.form.value.image);
+     this.postsService.updatePost(this.postId, this.form.value.title, this.form.value.content, this.form.value.image);
     }
 
-    //form.resetForm();
+    this.form.reset();
   }
 
 }
