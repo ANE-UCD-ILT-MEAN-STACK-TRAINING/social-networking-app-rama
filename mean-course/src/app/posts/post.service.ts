@@ -31,6 +31,7 @@ export class PostsService {
               title: post.title,
               content: post.content,
               id: post._id,
+              imagePath: post.imagePath
             };
           });
         })
@@ -47,7 +48,32 @@ export class PostsService {
     return this.postsUpdated.asObservable();
   }
 
-  addPost(title: string, content: string) {
+
+
+  addPost(title: string, content: string, image: File) {
+    const postData = new FormData();
+    postData.append("title", title);
+    postData.append("content", content);
+    postData.append("image", image, title);
+    this.http
+      .post<{ message: string; post: Post }>(
+        "http://localhost:3000/api/posts",
+        postData
+      )
+      .subscribe(responseData => {
+        const post: Post = {
+          id: responseData.post.id,
+          title: title,
+          content: content,
+          imagePath : responseData.post.imagePath
+        };
+        this.posts.push(post);
+        this.postsUpdated.next([...this.posts]);
+        this.router.navigate(["/"]);
+      });
+  }
+
+  /*addPost(title: string, content: string) {
     const post: Post = { id: null, title: title, content: content };
     console.log("Inside addPost() of post.service.ts");
     this.http
@@ -60,7 +86,8 @@ export class PostsService {
         this.postsUpdated.next([...this.posts]);
       });
     this.router.navigate(['/']);
-  }
+  }*/
+
 
 /*deletePost(postId : string) {
   this.http
@@ -90,14 +117,14 @@ getPost(id: string) {
   
 
 updatePost(id: string, title: string, content: string) {
-  const post: Post = {id: id, title: title, content: content};
+  //const post: Post = {id: id, title: title, content: content};
   
-  this.http.put<{message: string, postId: string}>('http://localhost:3000/api/posts/' + id, post)
+  this.http.put<{message: string, post: Post}>('http://localhost:3000/api/posts/' + id, id)
   .subscribe(responseData => {
     console.log(responseData);
     const updatedPosts = [...this.posts];
-    const oldPostIndex = updatedPosts.findIndex(p => p.id == post.id);
-    updatedPosts[oldPostIndex] = post;
+    //const oldPostIndex = updatedPosts.findIndex(p => p.id == post.id);
+    //updatedPosts[oldPostIndex] = post;
     this.posts = updatedPosts;
     this.postsUpdated.next([...this.posts]);
     this.router.navigate(['/']);
