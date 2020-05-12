@@ -38,6 +38,8 @@ const MIME_TYPE_MAP = {
         content: req.body.content,
         imagePath: url + "/images/" + req.file.filename
       });
+      console.log("Post Object Before storing in DB...");
+      console.log(post);
       post.save().then(createdPost => {
         res.status(201).json({
           message: "Post added successfully",
@@ -45,7 +47,9 @@ const MIME_TYPE_MAP = {
             ...createdPost,
             id: createdPost._id
           }
+          
         });
+      console.log("After save The post id from DB is " + createdPost._id);
       });
     }
   );
