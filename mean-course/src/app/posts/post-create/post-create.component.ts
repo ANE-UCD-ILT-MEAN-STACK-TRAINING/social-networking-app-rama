@@ -40,16 +40,20 @@ export class PostCreateComponent implements OnInit {
         //this.postsService.getPost(this.postId);
         // Replace the above line by the below 3 lines of code.
         this.postsService.getPost(this.postId).subscribe(postData => {
+          console.log("Post data title from getPost service " + postData.title);
           this.isLoading = false;
-          this.post = { id: postData._id, title: postData.title, content: postData.content, imagePath: postData.imagePath }
+          this.post = { 
+            id: postData._id,
+            title: postData.title, 
+            content: postData.content, 
+            imagePath: postData.imagePath }
+            console.log("after getting post title from postservice " + this.post.title);
+            this.form.setValue({
+              title: this.post.title,
+              content: this.post.content,
+              image: this.post.imagePath
+            });
           });  
-          this.form.setValue({
-            title: this.post.title,
-            content: this.post.content,
-            imagePath: this.post.imagePath
-           // image: new FormControl(null, Validators.required, )      
-          });
-    
         }
         else {
         this.mode = 'create';
