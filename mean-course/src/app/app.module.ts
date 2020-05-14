@@ -10,6 +10,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { ReactiveFormsModule } from "@angular/forms";
 import { FormGroup } from '@angular/forms';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -40,6 +41,7 @@ import { PostListComponent } from './posts/post-list/post-list.component';
     HttpClientModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

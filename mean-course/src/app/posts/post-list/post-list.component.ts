@@ -12,6 +12,10 @@ export class PostListComponent implements OnInit {
 
   isLoading = false;
 
+  totalPosts = 10;
+  postsPerPage = 5;
+  pageSizeOptions = [1, 2, 5, 10];
+
   constructor(public postsService : PostsService) { }
 
   @Input() posts: Post[] = [];
