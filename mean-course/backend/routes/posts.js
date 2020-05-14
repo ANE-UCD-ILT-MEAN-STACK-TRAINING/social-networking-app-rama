@@ -72,7 +72,20 @@ const MIME_TYPE_MAP = {
   
 
 router.get("", (req, res, next) => {
-  Post.find().then((documents) => {
+  const pageSize = +req.query.pagesize;
+  const currentPage = +req.query.page;
+
+  console.log(pageSize);
+  console.log(currentPage);
+  
+  const postQuery = Post.find();
+    // if inputs are valid
+    if (pageSize && currentPage) {
+      postQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+    }
+  
+
+  postQuery.find().then((documents) => {
     res.status(200).json({
       message: "Posts fetched successfully!",
       posts: documents,

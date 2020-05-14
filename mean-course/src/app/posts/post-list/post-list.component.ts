@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ComponentFactoryResolver } from '@angular/cor
 import { Post } from '../post.model';
 import { PostsService } from '../post.service';
 import { Subscription} from 'rxjs';
+import { PageEvent } from "@angular/material/paginator";
 
 @Component({
   selector: 'app-post-list',
@@ -46,6 +47,9 @@ export class PostListComponent implements OnInit {
     this.postSubscription.unsubscribe();
   }
 
+  onChangedPage(pageData: PageEvent) {
+    console.log(pageData);
+  }
 
 
 
