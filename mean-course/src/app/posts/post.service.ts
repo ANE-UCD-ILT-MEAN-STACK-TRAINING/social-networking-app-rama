@@ -19,10 +19,12 @@ export class PostsService {
     return [...this.posts];
   }*/
 
-  getPosts() {
+  getPosts(postsPerPage: number, currentPage: number) {
+    const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
+
     this.http
       .get<{ message: string; posts: any }>(
-        "http://localhost:3000/api/posts"
+        "http://localhost:3000/api/posts" + queryParams
       )
       .pipe(
         map((postData) => {

@@ -15,6 +15,7 @@ export class PostListComponent implements OnInit {
 
   totalPosts = 10;
   postsPerPage = 5;
+  currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 
   constructor(public postsService : PostsService) { }
@@ -29,7 +30,7 @@ export class PostListComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.postsService.getPosts();
+    this.postsService.getPosts(this.postsPerPage, this.currentPage);
     this.postSubscription =  this.postsService.getPostUpdateListener()
     .subscribe((postsReceived: Post[]) => {
         setTimeout(()=>{ this.isLoading = false }, 2000);
@@ -48,6 +49,9 @@ export class PostListComponent implements OnInit {
   }
 
   onChangedPage(pageData: PageEvent) {
+    this.postsPerPage = pageData.pageSize;
+    this.currentPage = pageData.pageIndex +1;
+    this.postsService.getPosts(this.postsPerPage, this.currentPage);
     console.log(pageData);
   }
 
