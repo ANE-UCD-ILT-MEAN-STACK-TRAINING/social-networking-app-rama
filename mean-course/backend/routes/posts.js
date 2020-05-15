@@ -71,28 +71,37 @@ const MIME_TYPE_MAP = {
   });*/
   
 
-router.get("", (req, res, next) => {
-  const pageSize = +req.query.pagesize;
-  const currentPage = +req.query.page;
-
-  console.log(pageSize);
-  console.log(currentPage);
+  router.get("", (req, res, next) => {
+    const pageSize = +req.query.pagesize;
+    const currentPage = +req.query.page;
+    let fetchedPosts;
+    console.log(pageSize);
+    console.log(currentPage);
   
-  const postQuery = Post.find();
+    const postQuery = Post.find();
+  
     // if inputs are valid
     if (pageSize && currentPage) {
       postQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
     }
   
-
-  postQuery.find().then((documents) => {
-    res.status(200).json({
-      message: "Posts fetched successfully!",
-      posts: documents,
-    });
+    postQuery
+      .find()
+      .then((documents) => {
+        fetchedPosts = documents;
+        console.log("Fetched Posts " + fetchedPosts);
+        return Post.count();
+      })
+      .then((count) => {
+        res.status(200).json({
+          message: "Posts fetched successfully!",
+          posts: fetchedPosts,
+          maxPosts: count,
+        });
+      });
   });
-});
 
+  
 router.delete("/:id", (req, res, next) => {
   Post.deleteOne({ _id: req.params.id }).then((result) => {
     console.log(result);
