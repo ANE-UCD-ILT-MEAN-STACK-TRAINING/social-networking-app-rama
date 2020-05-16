@@ -1,0 +1,32 @@
+<mat-card>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <form *ngIf="!isLoading"> 
+        <mat-form-field>
+            <input matInput type="text" placeholder="Enter Email Id">
+            <mat-error *ngIf="">Please enter an email.</mat-error>
+          </mat-form-field>
+          
+          <mat-form-field>
+            <textarea matInput rows="4" placeholder="Enter Password"></textarea>
+            <mat-error *ngIf="">Please enter a password.</mat-error>
+          </mat-form-field>
+          <button mat-raised-button color="accent" type="submit">Login</button>
+        </form>
+      
+</mat-card>
+
+
+<!-- <mat-card>
+    <mat-form-field>
+        <input matInput type="text" [(ngModel)]= 'enteredTitle'>
+    </mat-form-field>
+    <mat-form-field>
+        <textarea matInput rows="6" [(ngModel)] ='enteredContent'></textarea>
+    </mat-form-field>
+</mat-card>
+<hr>
+<button mat-raised-button
+color = "primary"
+(click) = "onAddPost()" >Save Post</button> -->
+
+<!-- <p>{{ newPost }}</p> -->
