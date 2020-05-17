@@ -46,7 +46,8 @@ export class PostCreateComponent implements OnInit {
             id: postData._id,
             title: postData.title, 
             content: postData.content, 
-            imagePath: postData.imagePath }
+            imagePath: postData.imagePath,
+            creator: postData.creator }
             console.log("after getting post title from postservice " + this.post.title);
            
           //this.form.patchValue({title: this.post.title});
