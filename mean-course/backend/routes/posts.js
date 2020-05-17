@@ -10,6 +10,7 @@ const MIME_TYPE_MAP = {
     "image/jpeg": "jpg",
     "image/jpg": "jpg"
   };
+
   
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -35,10 +36,17 @@ const MIME_TYPE_MAP = {
     multer({ storage: storage }).single("image"),
     (req, res, next) => {
       const url = req.protocol + "://" + req.get("host");
+      console.log("Req header in posts.js");
+      console.log(req.headers);
+      console.log("Req body in posts.js");
+      console.log(req.body);
+      console.log("Req userData in posts.js");
+      console.log(req.userData);
       const post = new Post({
         title: req.body.title,
         content: req.body.content,
-        imagePath: url + "/images/" + req.file.filename
+        imagePath: url + "/images/" + req.file.filename,
+        creator: req.userData.userId
       });
       console.log("Post Object Before storing in DB...");
       console.log(post);
@@ -105,9 +113,14 @@ const MIME_TYPE_MAP = {
 
   
 router.delete("/:id", checkAuth, (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id }).then((result) => {
+  Post.deleteOne({ _id: req.params.id, creator: req.userData.userId }).then((result) => {
     console.log(result);
-    res.status(200).json({ message: "Post deleted!" });
+    if(result.n > 0)  {
+      res.status(200).json({ message: "Delete successful!" });
+    } else {
+      res.status(401).json({ message: "Not authorized!" });
+    }
+    //res.status(200).json({ message: "Post deleted!" });
   });
 });
 
@@ -140,15 +153,21 @@ router.put('/:id', checkAuth, multer({ storage: storage }).single("image"), (req
       content: req.body.content,
       imagePath: imagePath
   });
-  console.log("POst Object in NodeJS server before update to DB... ");
+  console.log("Post Object in NodeJS server before update to DB... ");
   console.log(post);
-    Post.updateOne({_id: req.params.id}, post)
+    Post.updateOne({_id: req.params.id, creator: req.userData.userId}, post)
     .then(updatedPost => {
-    res.status(201).json({
-    message: 'Post Added !!',
-    postId: updatedPost._id
+      console.log(updatedPost);
+      if(updatedPost.nModified > 0)  {
+        res.status(200).json({ message: "Update successful!" });
+      } else {
+        res.status(401).json({ message: "Not authorized!" });
+      }
+      /*res.status(201).json({
+      message: 'Post Added !!',
+      postId: updatedPost._id
+      });*/
     });
-  });
 });
 
 router.get('/:id', (req, res, next) => {
