@@ -9,6 +9,7 @@ export class AuthService {
 
     private token: string;
     private authStatusListener = new Subject<boolean>();
+    private isAuthenticated = false;
 
     constructor(private http: HttpClient, private router: Router) {}
 
@@ -30,9 +31,19 @@ export class AuthService {
             console.log(response.token);
             const token = response.token;
             this.token = token;
-            this.authStatusListener.next(true);
+            if(token) {
+                this.isAuthenticated = true;
+                this.authStatusListener.next(true);
+            }
         });
     }
+
+    logout() {
+        this.token = null;
+        this.isAuthenticated = false;
+        this.authStatusListener.next(false);
+    }
+        
     
     getToken() {
         return this.token;
@@ -42,4 +53,7 @@ export class AuthService {
         return this.authStatusListener.asObservable();
     }
         
+    getIsAuth() {
+        return this.isAuthenticated;
+    }
 }
