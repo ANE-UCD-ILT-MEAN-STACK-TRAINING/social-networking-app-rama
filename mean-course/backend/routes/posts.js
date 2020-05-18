@@ -60,7 +60,12 @@ const MIME_TYPE_MAP = {
           
         });
       console.log("After save The post id from DB is " + createdPost._id);
+      }).catch(error => {
+        res.status(500).json({
+          message: "Creating a post failed!"
+        });
       });
+
     }
   );
   
@@ -108,7 +113,12 @@ const MIME_TYPE_MAP = {
           posts: fetchedPosts,
           maxPosts: count,
         });
+      }).catch(error => {
+        res.status(500).json({
+          message: "Failed fetching posts!"
+        });
       });
+;
   });
 
   
@@ -121,7 +131,12 @@ router.delete("/:id", checkAuth, (req, res, next) => {
       res.status(401).json({ message: "Not authorized!" });
     }
     //res.status(200).json({ message: "Post deleted!" });
+  }).catch(error => {
+    res.status(500).json({
+      message: "Deleting post failed!"
+    });
   });
+
 });
 
 /*router.put('/:id', (req, res, next) => {
@@ -168,7 +183,12 @@ router.put('/:id', checkAuth, multer({ storage: storage }).single("image"), (req
       message: 'Post Added !!',
       postId: updatedPost._id
       });*/
+    }).catch(error => {
+      res.status(500).json({
+        message: "Couldn't update the post!"
+      });
     });
+;
 });
 
 router.get('/:id', (req, res, next) => {
